@@ -1,9 +1,11 @@
 #!/bin/sh
  
 
-# mount the /proc and /sys filesystems.
+# mount the /proc /sys /dev filesystems.
 /bin/mount -t proc none /proc
 /bin/mount -t sysfs none /sys
+/bin/mount -t devtmpfs none /dev
+/bin/mount -t configfs none /sys/kernel/config
 
 a=`/bin/cat /proc/cmdline`
 
@@ -25,20 +27,11 @@ if ! [ -n "$mountdev" ]; then
 	mountdev=/dev/mmcblk0p2
 fi
 
-partnum=`echo $mountdev | /usr/bin/awk '{print substr($0,length())}'`
-
-#Creating device nodes required for creating 32 byte random key
-/bin/mknod -m 666 /dev/random c 1 8
-/bin/mknod -m 666 /dev/urandom c 1 9
-chown root:root /dev/random /dev/urandom
-
-/bin/mknod -m 622 /dev/console c 5 1
-/bin/mknod -m 622 /dev/tty0 c 4 0
-/bin/mknod $mountdev b 179 $partnum
+# Sleep 1 sec for probing mmc block device
+/bin/sleep 1
 
 # Mounting rootfs with iversion enabled
 /bin/mount -o rw,iversion $mountdev /mnt
-
 
 # ima evm mode: fix or enforce
 ima_fix='evm=fix'
