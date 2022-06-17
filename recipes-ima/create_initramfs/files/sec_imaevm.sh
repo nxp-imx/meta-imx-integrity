@@ -1,5 +1,6 @@
 #!/bin/sh
  
+# Copyright 2022 NXP
 
 # mount the /proc /sys /dev filesystems.
 /bin/mount -t proc none /proc
