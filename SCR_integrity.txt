@@ -1,0 +1,23 @@
+NXP Software Content Register
+
+
+Yocto Project recipe manifest:
+repo init -u ssh://bitbucket.sw.nxp.com/imx/imx-manifest -b linux-kirkstone-internal -m imx-integrity.xml
+
+License File: EULA.txt v35 May 2022
+
+Depends on meta-security layer which uses MIT License.
+
+We are using MIT License for our layer as well.
+--------------------------------------------
+PATCHES IN META-IMX-INTEGRITY
+--------------------------------------------
+
+Patch for:                   linux-imx.git
+Outgoing License:            GPL-2.0
+License File:                linux-imx/COPYING
+Package Category:            BSP
+Type of Content:             source
+Description and comments:    The Linux kernel with i.MX-specific drivers
+Origin:                      NXP (GPL-2.0) - https://source.codeaurora.org/external/imx/linux-imx
+ 
