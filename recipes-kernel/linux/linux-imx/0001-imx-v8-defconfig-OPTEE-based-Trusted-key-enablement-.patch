@@ -1,0 +1,30 @@
+From 5c0d5f643ea16e93178253fab83ebe41184f49ba Mon Sep 17 00:00:00 2001
+From: Kshitiz Varshney <kshitiz.varshney@nxp.com>
+Date: Wed, 11 Jan 2023 07:57:16 +0100
+Subject: [PATCH] imx-v8-defconfig: OPTEE based Trusted key enablement for
+ i.MX93
+
+This commit modifies defconfig file for supporting OPTEE based trusted
+key which is required for IMA/EVM.
+
+Signed-off-by: Kshitiz Varshney <kshitiz.varshney@nxp.com>
+---
+ arch/arm64/configs/imx_v8_defconfig | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/arch/arm64/configs/imx_v8_defconfig b/arch/arm64/configs/imx_v8_defconfig
+index 0a3dc3cf9a2b..41e0535a3c36 100644
+--- a/arch/arm64/configs/imx_v8_defconfig
++++ b/arch/arm64/configs/imx_v8_defconfig
+@@ -1122,3 +1122,8 @@ CONFIG_IMA_QUEUE_EARLY_BOOT_KEYS=y
+ 
+ CONFIG_IMX_EL_ENCLAVE=y
+ 
++
++# enable OPTEE based trusted key (for i.MX93)
++CONFIG_TRUSTED_KEYS_TEE=y
++CONFIG_TRUSTED_KEYS_CAAM=n
++
+-- 
+2.25.1
+
