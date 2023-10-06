@@ -1,6 +1,6 @@
 #!/bin/sh
  
-# Copyright 2022 NXP
+# Copyright 2022-2023 NXP
 
 # mount the /proc /sys /dev filesystems.
 /bin/mount -t proc none /proc
@@ -38,8 +38,16 @@ fi
 ima_fix='evm=fix'
 
 if echo $a | /bin/grep -q $ima_fix; then
-    echo "Creating keys"
     mkdir -p /mnt/etc/keys
+   # Generate RSA key pair (used for signing & verification)
+    openssl genrsa -out rsa_private.pem 2048
+    openssl rsa -pubout -in rsa_private.pem -out rsa_public.pem
+    mkdir -p /mnt/etc/keys
+    # copy public key to /etc/keys
+    cp rsa_public.pem /mnt/etc/keys/rsa_public.pem
+    rm etc/keys/x509_*
+
+    echo "Creating keys"
     /bin/keyctl add trusted kmk-trusted "new 32" @u
     /bin/keyctl pipe `keyctl search @u trusted kmk-trusted` >/mnt/etc/keys/kmk-trusted.blob
     /bin/keyctl add encrypted evm-key "new trusted:kmk-trusted 32" @u
@@ -55,11 +63,23 @@ else
     /bin/keyctl add encrypted evm-key "load `/bin/cat /mnt/etc/keys/evm-trusted.blob`" @u > /dev/null
 fi
 
+# load public key in _ima keyring for signature verification
+evmctl import --rsa /mnt/etc/keys/rsa_public.pem $(keyctl newring _ima @u)
+
+echo "Check _ima keyring"
+keyctl show @u
+
+# Invoking evm
 echo "1" > /sys/kernel/security/evm
+
 
 if echo $a | /bin/grep -q $ima_fix; then
     echo "Labelling files in fix mode. This will take few minutes. Reboot once done"
-    usr/bin/find /mnt/ -type f -exec head -n 1 '{}' >/dev/null \;
+    find /mnt/ -type f -exec head -n 1 '{}' >/dev/null \;
     echo "Attributes labeled."
+    echo "Signing kernel modules"
+    find / -name \*.ko -type f -exec evmctl ima_sign --key rsa_private.pem '{}' >/dev/null \;
+    echo "signing done."
+
 fi
 exec /sbin/switch_root /mnt /sbin/init

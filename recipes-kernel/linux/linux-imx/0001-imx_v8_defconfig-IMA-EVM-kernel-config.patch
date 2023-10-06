@@ -1,4 +1,4 @@
-From f0db4a6ba10ab8b94949f01aae9e540847cd99e9 Mon Sep 17 00:00:00 2001
+From b1ae39fc2dbdb410255f76f023b988ae70637464 Mon Sep 17 00:00:00 2001
 From: Kshitiz Varshney <kshitiz.varshney@nxp.com>
 Date: Mon, 9 Jan 2023 16:17:51 +0100
 Subject: [PATCH] imx_v8_defconfig: IMA-EVM kernel config
@@ -11,10 +11,10 @@ Signed-off-by: Kshitiz Varshney <kshitiz.varshney@nxp.com>
  1 file changed, 30 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arm64/configs/imx_v8_defconfig b/arch/arm64/configs/imx_v8_defconfig
-index e98cd78c98c7..0a3dc3cf9a2b 100644
+index 849f86f35f02..d2945290a79b 100644
 --- a/arch/arm64/configs/imx_v8_defconfig
 +++ b/arch/arm64/configs/imx_v8_defconfig
-@@ -1013,7 +1013,7 @@ CONFIG_ROOT_NFS=y
+@@ -1038,7 +1038,7 @@ CONFIG_ROOT_NFS=y
  CONFIG_9P_FS=y
  CONFIG_NLS_CODEPAGE_437=y
  CONFIG_NLS_ISO8859_1=y
@@ -23,7 +23,7 @@ index e98cd78c98c7..0a3dc3cf9a2b 100644
  # CONFIG_TRUSTED_KEYS_TPM is not set
  # CONFIG_TRUSTED_KEYS_TEE is not set
  CONFIG_SECURITY=y
-@@ -1062,7 +1062,7 @@ CONFIG_CRYPTO_AES_ARM64_BS=m
+@@ -1089,7 +1089,7 @@ CONFIG_CRYPTO_AES_ARM64_BS=m
  CONFIG_CRYPTO_AES_ARM64_CE_CCM=y
  CONFIG_CRYPTO_CRCT10DIF_ARM64_CE=m
  CONFIG_CRYPTO_DEV_FSL_CAAM_SECVIO=m
@@ -32,7 +32,7 @@ index e98cd78c98c7..0a3dc3cf9a2b 100644
  CONFIG_CRYPTO_DEV_FSL_CAAM_SM_TEST=m
  CONFIG_CRYPTO_DEV_FSL_DPAA2_CAAM=m
  CONFIG_CRYPTO_DEV_CCREE=m
-@@ -1094,3 +1094,31 @@ CONFIG_CORESIGHT_STM=m
+@@ -1121,3 +1121,31 @@ CONFIG_CORESIGHT_STM=m
  CONFIG_CORESIGHT_CPU_DEBUG=m
  CONFIG_CORESIGHT_CTI=m
  CONFIG_MEMTEST=y
@@ -60,10 +60,10 @@ index e98cd78c98c7..0a3dc3cf9a2b 100644
 +CONFIG_IMA_TRUSTED_KEYRING=y
 +CONFIG_EXT4_FS_SECURITY=y
 +CONFIG_IMA_QUEUE_EARLY_BOOT_KEYS=y
-+
++CONFIG_IMA_WRITE_POLICY=y
++CONFIG_IMA_READ_POLICY=y
 +
 +CONFIG_IMX_EL_ENCLAVE=y
-+
 -- 
 2.25.1
 
