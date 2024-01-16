@@ -1,6 +1,6 @@
 #!/bin/sh
  
-# Copyright 2022-2023 NXP
+# Copyright 2022-2024 NXP
 
 # mount the /proc /sys /dev filesystems.
 /bin/mount -t proc none /proc
@@ -63,10 +63,11 @@ else
     /bin/keyctl add encrypted evm-key "load `/bin/cat /mnt/etc/keys/evm-trusted.blob`" @u > /dev/null
 fi
 
-# load public key in _ima keyring for signature verification
+# load public key in _ima & _evm keyring for signature verification
 evmctl import --rsa /mnt/etc/keys/rsa_public.pem $(keyctl newring _ima @u)
+evmctl import --rsa /mnt/etc/keys/rsa_public.pem $(keyctl newring _evm @u)
 
-echo "Check _ima keyring"
+echo "Check keyring"
 keyctl show @u
 
 # Invoking evm
@@ -78,7 +79,7 @@ if echo $a | /bin/grep -q $ima_fix; then
     find /mnt/ -type f -exec head -n 1 '{}' >/dev/null \;
     echo "Attributes labeled."
     echo "Signing kernel modules"
-    find / -name \*.ko -type f -exec evmctl ima_sign --key rsa_private.pem '{}' >/dev/null \;
+    find / -name \*.ko -type f -exec evmctl ima_sign --rsa --key rsa_private.pem '{}' >/dev/null \;
     echo "signing done."
 
 fi
