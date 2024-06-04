@@ -15,11 +15,10 @@ $ PATH=${PATH}:~/bin
 
 Download the Yocto Project BSP
 ------------------------------
-
 ```
 $ mkdir imx-linux-bsp
 $ cd imx-linux-bsp
-$ repo init -u ssh://bitbucket.sw.nxp.com/imx/imx-manifest -b linux-nanbield-internal -m imx-integrity.xml
+$ repo init -u https://github.com/nxp-imx/imx-manifest -b imx-linux-nanbield -m imx-integrity.xml
 $ repo sync
 ```
 
