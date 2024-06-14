@@ -30,7 +30,6 @@ If you want to create a new build folder that includes configuration of
 integrity layer:
 ```
 $ MACHINE=<Machine> DISTRO=fsl-imx-xwayland source ./imx-integrity-setup-release.sh -b build-DISTRO
-$ source ../sources/imx-build-bamboo/build/hook-in-internal-servers.sh
 ```
 i.MX Machine:
 - imx8dxlevk
